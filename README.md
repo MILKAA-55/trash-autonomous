@@ -1,0 +1,1 @@
+Small self-contained bin capable of moving in an indoor environment, full Python.

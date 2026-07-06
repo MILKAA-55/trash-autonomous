@@ -108,7 +108,7 @@ class Updater:
             self.log_print("Update successful ✓", "success")
             self.stop_progress(True)
             time.sleep(1)
-            self.log_print("Reboot of PR...", "accent")
+            self.log_print("Reboot of the Trash...", "accent")
             time.sleep(1)
             os.execv(sys.executable, [sys.executable] + sys.argv + ["--skip-boot"])
         else:

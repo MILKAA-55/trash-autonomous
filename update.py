@@ -5,10 +5,10 @@ import subprocess
 import requests
 from datetime import datetime
 
-GITHUB_USER = "MILKAA-88"
-GITHUB_REPO = "pr"
+GITHUB_USER = "MILKAA-55"
+GITHUB_REPO = "trash-autonomous"
 BRANCH = "main"
-VERSION_FILE = ".pr_version"
+VERSION_FILE = ".trash_version"
 
 RESET   = "\033[0m"
 BOLD    = "\033[1m"
@@ -116,7 +116,7 @@ class Updater:
             self.stop_progress(False)
 
     def run(self):
-        self.log_print("PR Updater started.", "accent")
+        self.log_print("The Trash Autonomous Updater started.", "accent")
         self.log_print(f"Repo watched: {GITHUB_USER}/{GITHUB_REPO} ({BRANCH})", "dim")
         self.update_loop()
 

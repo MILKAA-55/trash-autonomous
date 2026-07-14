@@ -1,1 +1,1 @@
-Small self-contained bin capable of moving in an indoor environment, full Python.
+Small self-contained bin capable of moving in an indoor environment, full Python. A small smart robot bin (for home) capable of going from point A to point B independently, the product user will have at his disposal to perform commands/instructions remotely. It will be in the shape of a small cylinder. 

@@ -1,3 +1,7 @@
 *pr_version
 *pt
-*png
+*odt
+__pycache__/
+*vscode
+*trash_version
+*odt

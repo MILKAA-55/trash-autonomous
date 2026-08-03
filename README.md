@@ -2,27 +2,29 @@
 
 Small self-contained bin capable of moving in an indoor environment, entirely in Python. A small intelligent robot (for an indoor environment) capable of going from point A to point B independently, the product user will have a station to execute commands/instructions remotely. It will have the shape of a small cylinder. Its height is modular (designed for 30cm, too much height is risky). The robot is segmented into several bases (to reduce printing costs).
 
-![img1](img/Main/16.png)
+![img1](img/Main/17.png)
 
 A lid is provided to hide the BOM (components); simply lift the lid up to access the BOMs, insert your finger into the small hole, and lift/reassemble.
 
-![img1](img/Main/15.png)
+![img1](img/Main/18.png)
 
 # BOM (Components):
 
 [Link of the BOM, bought on Aliexpress](https://www.aliexpress.com/p/wish-manage/share.html?spm=a2g0o.best.headerAcount.6.2bb62c25vOnlII&smbPageCode=wishlist-amp&spreadId=9D17F73AD6E3321969CEB72831C0C71B5633AE79CA16C14777869F45B6FCB9BF)
 
-And for the station, it's just a Esp32 (with Terminal), [module uwb with usb cable](https://fr.aliexpress.com/item/1005010436185037.html?pdp_ext_f=%7B%22sku_id%22%3A%2212000052397853232%22%7D&sourceType=1&spm=a2g0o.wish-manage-detail.0.0&gatewayAdapt=glo2fra) and a [push btn, 3V-6V, 16mn and Momentary](https://fr.aliexpress.com/item/1005008024309525.html?pdp_ext_f=%7B%22sku_id%22%3A%2212000043299777530%22%7D&sourceType=1&spm=a2g0o.wish-manage-home.0.0&gatewayAdapt=glo2fra)
+And for the station, it's just a Esp32 (with Terminal), [module uwb with usb cable, the EWT550-7G9T10SP](https://fr.aliexpress.com/item/1005010436185037.html?pdp_ext_f=%7B%22sku_id%22%3A%2212000052397853232%22%7D&sourceType=1&spm=a2g0o.wish-manage-detail.0.0&gatewayAdapt=glo2fra) and a [push btn, 3V-6V, 16mn and Momentary](https://fr.aliexpress.com/item/1005008024309525.html?pdp_ext_f=%7B%22sku_id%22%3A%2212000043299777530%22%7D&sourceType=1&spm=a2g0o.wish-manage-home.0.0&gatewayAdapt=glo2fra), and maybe a [PowerBank of 5000mAh](https://fr.aliexpress.com/item/1005007748555286.html?pdp_ext_f=%7B%22sku_id%22%3A%2212000059013375681%22%7D&sourceType=1&spm=a2g0o.wish-manage-home.0.0&gatewayAdapt=glo2fra)
 
 The 3D modeling files were created on FreeCAD, they will be available soon. Contact me (via the bio of my Github account) if you really wanted them (so, may contain errors, or not at the latest version; I am in no way responsible for this). 
 
-To see more pictures of the 3D modelling, see /img/: 
+To see more pictures of the 3D modelling, pinout Diagram, see /img/: 
 
 Main: Trash bin housing
 
 Relay: Box to improve the performance of the robot, by storing a UWB module (in all, 3 UWB modules). 
 
-Station: 
+Station: Small enclosure, required for the proper operation of Trash-Autonomous, housing a second UWB module.
+
+And the folder pcb, to see the pinout diagram.
 
 # Extra information!
 

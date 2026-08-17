@@ -1,4 +1,4 @@
-# Trash-Autonomous :
+# Trash-Autonomous:
 
 Small self-contained bin capable of moving in an indoor environment, entirely in Python. A small intelligent robot (for an indoor environment) capable of going from point A to point B independently, the product user will have a station to execute commands/instructions remotely. It will have the shape of a small cylinder. Its height is modular (designed for 30cm, too much height is risky). The robot is segmented into several bases (to reduce printing costs).
 

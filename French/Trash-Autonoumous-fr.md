@@ -46,12 +46,9 @@ Résultat : Donne uniquement la distance (pas la direction).
 Je choisis la technique de l’UWB TWR, avec uniquement 2 modules (car le coût est assez élevé, 23 euro pour le DWM1000 et 43 euro pour le DWM 3000). Je ferai de la MVP thinking (start small, iterate) littéralement, je testerai pendant quelques semaines si 2 modules UWB TWR suffisent et si le robot-poubelle n’est pas en difficulté, si oui, alors j’achèterai un 3e module et un esp32 (et une batterie et un bouton, j’y en reviendrai plus tard).
 
 
-> [Note]
-> Notez, que le nombre de module uwb influence directement la puissance et intelligence du système (dans notre cas, le système est le robot-poubelle). Donc, oui, pour de la localisation indoor (intérieur), l’UWB est une excellente solution ! 
+> Notez que le nombre de module uwb influence directement la puissance et intelligence du système (dans notre cas, le système est le robot-poubelle). Donc, oui, pour de la localisation indoor (intérieur), l’UWB est une excellente solution ! 
 
 Pour avoir une meilleur connaissance, voici un récapitulatif : 
-
-(ps: j’aurai bien voulu faire un tableau, mais mon éditeur de texte, FocusWriter, ne permet pas l’insertion de tableaux ni d’images...).
 
 ###  UWB : Avantages et Limitations
 
@@ -76,7 +73,7 @@ Le sac poubelle restera coincée, se fera prendre littéralement en sandwich.
 # Choix des composants : 
 
 > [!NOTE]
-> "Tout le panier de l'ensemble des composants sera divulgé à la fin, et également des fichiers de modélisation 3d."
+> Tout le panier de l'ensemble des composants sera divulgué à la fin et également des fichiers de modélisation 3d, gratuitement.
 
 # Roues : 
 Elle sera doté de 2 roues motrices (en courant continue) avec les 2 roues folles restantes (pour équilibrer le châssis, celle-là ne sont pas motorisé).
@@ -98,6 +95,26 @@ Avantages de 4 roues motorisé : Bien meilleure motricité et franchissement d'o
 plus de couple disponible, utile si le robot est lourd (batterie industrielle + RPi + capteurs), meilleure stabilité sur sol irrégulier
 Inconvénients de 4 roues motorisés : plus complexe, il faut synchroniser 4 moteurs (surtout en virage, sinon ça patine ou ça force), Plus cher, plus gourmand en énergie, nécessite un driver capable de gérer 4 canaux (ou 2 drivers). Je choisis du 4 roues, dont 2 folles et motorisée, littéralement du entraînement différentiel (Differential Driver).
 
+# Micro-Controlleur : 
+
+J'hésitais entre le Raspberry Pi 5/4 ou un Esp32, mais, j'opte finalement pour un Esp32. Pourquoi ?? : 
+
+- Moins de consommation électrique.
+- Suffisant pour un prototype.
+- Démarrage instannée (Raspberry Pi charge un noyaux Linux).
+- Prix moins abusif.
+
+Son seul point négatif est qu'il ne supporte pas Python, il lui faut du Micro-Python ou du C++. Ainsi, je vais programmer le software (logiciel) de ce projet en MicroPython, mais ensuite faire une .... en C++, lorsque j'aurai acquis une bonne connaisance en C++. Pour déjà, améliorer le temps de traitement (C++ est plus rapide que Python1)
+
+Attention, nuance ! l'ESP32 n'est pas parfait, mais il convient pour ce projet, par exemple si vous souhaitez faire des algorithme de navigation plus lourd, ajouter une caméra, le Raspberry Pi est mieux ! 
+
+1 = Et oui ! C++ est plus rapide que Python car C++ est un language compilé (ce qui signifie, que lorsque la rédaction de votre programme en C++, C++ tourne et exécute une partie du code en arriere-plan). Le supplément C++ offre un meilleur contrôle sur la gestion de la mémoire et des performances accrues.
+
+# C'est quoi Micro-Python ? 
+
+"Micro-Python est une version de Python adaptées aux microcontrolleurs, écrite en C."
+
+Source : Wikipédia 
 
 # Driver :
 
@@ -112,7 +129,6 @@ La version de UWB la plus récente est la DWM3000, mais elle est très cher (env
 Update/Changement du 09 Juillet : 
 J’ai trouvé une alternative moins chère, et suffisant pour mon projet; ainsi, je vous présente le : “Wireless Ranging Positioning Module UWB Module Ultra-Wideband Distance Measurement UART CH5 CH9 SMD EBYTE EWM550” avec USB Câble, donc il fournit en usb-c : USB-C to USB Classic
 Module UWB => USB-C => Fils => port USB-Classic sur Raspberry Pi 4 
-
 
 # Batterie 
 
@@ -129,10 +145,35 @@ Le capteur fonctionne en 5V : Il a besoin d'être alimenté en 5V pour émettre 
 Le Raspberry Pi 4 fonctionne en 3.3V : Les broches GPIO du Raspberry Pi ne tolèrent pas plus de 3.3V. Si tu branches directement la broche Echo (5V) sur un GPIO, tu risques d'endommager définitivement ton Raspberry Pi.
 Ainsi, en approfondissant la recherche de capteurs ultrasons, j’ai trouvé un lot de 4 capteurs (parfait !), sortant du 3.3v et pour Raspberry Pi, “RCWL-1601 Ultrasonic Ranging Sensor Module with I2C Interface 2-4.5M Distance Measurement“.
 
+# Contexte plus appronfondi : 
+
+Pour limiter les coûts d'impressions 3d (je n'ai pas d'imprimante 3D, [ici pour découvrir plus d'informations](#prestataires-dimprimerie-3d-abeille-3d)), j'ai décidé de segmenté Robot-Poubelle en plusieurs base, 4 base au total dont 2 (celui du bas et haut) qui sont obligatoire. Ainsi, une méthode Lego pour l'enboitement des pieces : 
+
+![GIF-LEGO](/img/Main/RP-TA.gif)
+
+Une base vaut 100mn.
+Donc, un total de 400mn.
+
+Une station est également présente pour lancer/exécuter la recherche et guider le robot vers la station (le robot ira vers la station); ce projet utilise la technologie UWB, ce qui permet une localisation et un positionnement plus précis, type TWR. Néanmoins, le nombre de modules UWB TWR influence directement les performances du système. Warning! Si vous souhaitez réaliser un projet similaire ou un projet utilisant la technologie UWB TWR, il faut obligatoirement 2 modules uwb !! 
+
+![img](/img/Station/4.png)
+![img](/img/Station/3.png)
+![img](/img/Station/5.png)
+
+Aussi, il y a un couvercle pour cacher le BOM (les composants) qui seront stocké au fond de la cuve, ayant un trou, pour insérer un doigt et soulever/remontez le couvercle pour accéder aux composants; et un petit repose (je ne sais pas comment cela s'appelle), pour fixer le sac poubelle, littéralement le prendre en sandwich.
+
+![img](/img/Main/cover1.png)
+![img](/img/Main/cover2.png)
 
 # Pratique : 
 
-“Hi! Before you ship my order, can you please pre-solder JST connectors (2.54mm female) on the JGA25-370 motor wires (red, black, and encoder wire)? It would help a lot for my project. No extra charge needed. Thank you! “ 
+“Hi! Before you ship my order, can you please pre-solder JST connectors (2.54mm female) on the JGA25-370 motor wires (red, black, and encoder wire)? It would help a lot for my project. No extra charge needed. Thank you!“ 
+
+# Architecture Logiciel : 
+
+- `uwb.py` : Pour la logique/communication entre les modules uwb. 
+- `btn.py` : Pour la logique du bouton de la station et 
+
 
 # Modélisation 3d : 
 
@@ -163,6 +204,10 @@ Robot-Poubelle : https://www.aliexpress.com/p/wish-manage/share.html?spm=a2g0o.b
 
 Station : https://www.aliexpress.com/p/wish-manage/share.html?spm=a2g0o.best.headerAcount.6.2bb6142dnas95B&_gl=1*7mwwf7*_gcl_au*OTE1OTEzNjYyLjE3ODMwMjUyNDQ.*_ga*MjEwMDM3NDc0MS4xNzgzMDI1MjU3*_ga_VED1YSGNC7*czE3ODcwNzE2OTckbzExNSRnMCR0MTc4NzA3MTY5NyRqNjAkbDAkaDA.&smbPageCode=wishlist-amp&spreadId=9D17F73AD6E3321969CEB72831C0C71B93FDB7C95A10AED5ACF5663CEDF8DD53
 
+> [!WARNING]
+> # Attention 
+> Attention ! Ce projet est en cours de développement, attendez vous à quelques erreurs ou manque, je n’ai rien acheté pour l’instant. 
+
 
 Pour les anglophones, j’ai légèrement modifier la traduction du nom de ce projet, Trash-Autonomous (Poubelle-Autonome) pour les anglophone et Robot-Poubelle (Robot-Trash) pour les francophone. 
 
@@ -176,7 +221,7 @@ Voici le récapitulatif financiers du projet :
 
 # Robot-Poubelle :
 
-- En cours.....
+- Esp32 | : €
 - Moteur JGA25-370 | sous 170 de rpm, 12v et avec «With Fixed Bracket» : 14 € 
 - Driver TB6612FNG | modèle TB6612FNG, Welded ou unwelded je ne sais pas encore : 3,39 € (pour - Welded, car j’opte pour lui, pas sure à 100%).
 - Capteurs Ultrasons (RCWL-1601, avec Interface I2C, mesure de Distance 2-4.5M) | 4 pcs : 8,19 €
@@ -211,7 +256,7 @@ Une base (de ...mn) vaut 59, 46 € sous 20% de remplissage, hauteur de couche b
 La station vaut 24, 34 € sous 20% de remplissage, hauteur de couche basse (de 0.20mn), PLA - Pro et 
 FDM - Filaments et en classe « économique », prix avec réductions/promotions. 
 
-Prestataires d’imprimerie 3d : Abeille 3d 
+# Prestataires d’imprimerie 3d : Abeille 3d 
 
 Les prix sont vraiment abusée... je suis en pleine réflexion sur l’achat d’une imprimante 3d. Car, pour les prestataires de services d’imprimerie 3d, ils ajoutent souvent une grosse marge, ainsi, imprimer en 3d chez vous ou un Fablab revient généralement moins cher.  
 

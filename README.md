@@ -53,7 +53,6 @@ $$\text{Distance} = \text{Travel Time} \times c$$
 
 There you go! And the more UWB module you have, the more accurate and intelligent the robot/system will be. The "Trash-Autonomous" project offers 2 uwb modules (one in the trash bin box and another, presented as a "station"). Another box, named "Relay" is available if you want an improvement in precision.
 
-
 Additionally, I created a text file to provide more context, history, and a follow-up on the challenges encountered during the project.
 
 * For the French version, see `Trash-Autonomous-fr`

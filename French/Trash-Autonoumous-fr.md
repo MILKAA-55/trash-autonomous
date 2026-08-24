@@ -151,8 +151,8 @@ Pour limiter les coûts d'impressions 3d (je n'ai pas d'imprimante 3D, [ici pour
 
 ![GIF-LEGO](/img/Main/RP-TA.gif)
 
-Une base vaut 100mn.
-Donc, un total de 400mn.
+Une base vaut 100mm.
+Donc, un total de 400mm.
 
 Une station est également présente pour lancer/exécuter la recherche et guider le robot vers la station (le robot ira vers la station); ce projet utilise la technologie UWB, ce qui permet une localisation et un positionnement plus précis, type TWR. Néanmoins, le nombre de modules UWB TWR influence directement les performances du système. Warning! Si vous souhaitez réaliser un projet similaire ou un projet utilisant la technologie UWB TWR, il faut obligatoirement 2 modules uwb !! 
 
@@ -237,7 +237,7 @@ Voici le récapitulatif financiers du projet :
 
 # Station : 
 
-- Bouton poussoir (permettant l’exécution de la recherche ....) | Couleurs au choix, pour ma part j’ai pris du WHITE LED, 3V-6V(5V), taille au choix, pris 19mn et Momentary : 2,89 €. 
+- Bouton poussoir (permettant l’exécution de la recherche ....) | Couleurs au choix, pour ma part j’ai pris du WHITE LED, 3V-6V(5V), taille au choix, pris 19mm et Momentary : 2,89 €. 
 - Esp32 : 5,39 €
 
 Optionnel : Une batterie externe (PowerBank) : https://fr.aliexpress.com/item/1005007748555286.html?pdp_ext_f=%7B%22sku_id%22%3A%2212000059013375681%22%7D&sourceType=1&spm=a2g0o.wish-manage-home.0.0&gatewayAdapt=glo2fra ou Batterie externe Xiaomi 5000mAh, chargeur USB Type C, chargeur de batterie externe pour téléphone mobile intelligent
@@ -250,10 +250,10 @@ Les total des prix ne prennent pas en compte, les taxes ni le surcoût de livrai
 
 X € pour l’électronique.
 
-Une base (de ...mn) vaut 59, 46 € sous 20% de remplissage, hauteur de couche basse (de 0.20mn), PLA - Pro et FDM - Filaments et en classe « économique », prix avec réductions/promotions. 
+Une base (de 100mm) vaut 59, 46 € sous 20% de remplissage, hauteur de couche basse (de 0.20mm), PLA - Pro et FDM - Filaments et en classe « économique », prix avec réductions/promotions. 
 
 
-La station vaut 24, 34 € sous 20% de remplissage, hauteur de couche basse (de 0.20mn), PLA - Pro et 
+La station vaut 24, 34 € sous 20% de remplissage, hauteur de couche basse (de 0.20mm), PLA - Pro et 
 FDM - Filaments et en classe « économique », prix avec réductions/promotions. 
 
 # Prestataires d’imprimerie 3d : Abeille 3d 
@@ -266,3 +266,4 @@ Email : milkaa.linux@gmail.com
 Discord : milka330_47221
 
 PS : Resonance by HOME c’est la meilleur musique ! Et The Caretaker aussi.  
+

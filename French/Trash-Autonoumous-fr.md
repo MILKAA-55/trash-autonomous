@@ -15,7 +15,7 @@ Ceci est mon premier projet en électronique et robotique.
 - Boîtier
 - Moteur
 - Batterie type industriel
-- Raspberry Pi 4
+- ESP32 N16R8
 - Capteurs ultrasons (pour éviter les obstacles telles que des murs)
 
 Maintenant, j’ai plusieurs manières pour faire venir le robot vers moi/station :
@@ -127,8 +127,17 @@ Moteur : JGA25-370 Miniature Geared DC Motor With Encoder, 6V/12V/24V, Reversibl
 La version de UWB la plus récente est la DWM3000, mais elle est très cher (environs 43euro), cependant il faut prendre en compte, qu’il faudra acheter 2 ou 3 modules UWB (2 modules sont le minimum, obligatoire), ainsi j’ai décidé de prendre le DWM1000, qui est beaucoup moins cher (environs 23 euros). Les principaux changements entre les modules uwb DWM3000 et le DWM000 sont, un chiffrage plus important, une consommation d’électrique améliorée (plus intense/élevée chez le DW1000). Pour ce premier prototype, le DWM1000 me convient.
 
 Update/Changement du 09 Juillet : 
-J’ai trouvé une alternative moins chère, et suffisant pour mon projet; ainsi, je vous présente le : “Wireless Ranging Positioning Module UWB Module Ultra-Wideband Distance Measurement UART CH5 CH9 SMD EBYTE EWM550” avec USB Câble, donc il fournit en usb-c : USB-C to USB Classic
-Module UWB => USB-C => Fils => port USB-Classic sur Raspberry Pi 4 
+J’ai trouvé une alternative moins chère, et suffisant pour mon projet; ainsi, je vous présente le : “Wireless Ranging Positioning Module UWB Module Ultra-Wideband Distance Measurement UART CH5 CH9 SMD EBYTE EWM550”, la version avec le port usb-c. Car, elle est adaptée aux makers, dont le nom est Devkit. 
+
+![UWB-DevKit](/img/Main/uwb-devkit.png)
+Provient de la fiche "Présentation" de la page Aliexpress.  
+
+> [!NOTE]
+> Ne vous inquitiée pas, ce sont des capuchont en plastique (jumpers) qui relient deux broches en elles pour configuerer la carte en usine. Il suffit de retirer les capuchont pour y découvrir des broches mâles (pins). 
+
+On ne touchera pas le port usb-c, on branchera des fils duponts aux broches centrales du module uwb (photo ci-contre). 
+
+Tout le schéma du cablage est disponible gratuitement ! Descendez un peu
 
 # Batterie 
 
@@ -165,15 +174,18 @@ Aussi, il y a un couvercle pour cacher le BOM (les composants) qui seront stock�
 ![img](/img/Main/cover1.png)
 ![img](/img/Main/cover2.png)
 
-# Pratique : 
-
-“Hi! Before you ship my order, can you please pre-solder JST connectors (2.54mm female) on the JGA25-370 motor wires (red, black, and encoder wire)? It would help a lot for my project. No extra charge needed. Thank you!“ 
+# Pratique :  
 
 # Architecture Logiciel : 
 
 - `uwb.py` : Pour la logique/communication entre les modules uwb. 
-- `btn.py` : Pour la logique du bouton de la station et 
+- `btn.py` : Pour la logique du bouton de la station.
+- `boot.py`: Premier script/fichier au démarrage.
+- `core/driver.py` : Communication au driver. 
+- `config.py` : Règlages des valeurs (exemple pour la vitesse).
+- `core/` :  
 
+Pas fini...
 
 # Modélisation 3d : 
 
@@ -198,6 +210,91 @@ Dans chaque dossier (de Main, Station), un dossier nommé «PCB» y sera présen
 
 1 : Comme déjà mentionnées plus tôt, il est obligatoire d’avoir 2 module uwb, lorsque un projet utilise la technologie UWB TWR.
 
+# Schéma du Cablage : 
+
+Pour ce prototype, je ne ferai pas de PCB, ainsi toute le cablage se fera par des plaques BreadBoard et des Fils Dupont. 
+
+Bon, je sais que je peux utiliser des Nets Labs, mais j'ai la flemme et pas le temps... 
+
+Driver : 
+
+Pin 2 VCC => 3V3 (de l'ESP32).
+Pin 3 GND => GND (de l'ESP32).
+Pin 4 A1 => Pin 6 M+ du 1er moteur (E1). 
+Pin 5 A2 => Pin 7 M- du 1er moteur (E1).
+Pin 6 B2 => Pin 1 M- du 2e moteur (E2).
+Pin 7 B1 => Pin 6 M+ du 2e moteur (E2).
+Pin 16 PWMA => GPIO 44/RXO, Pin 39 (de l'esp32).
+Pin 15 AIN2 => Pin 4, GPIO4 de l'ESP32.
+Pin 14 AIN1 => Pin 38, GPIO 2 de l'ESP32. 
+Pin 13 STBY => 3V3 de l'ESP32. 
+Pin 12 BIN1 =>
+Pin 11 BIN2 =>
+Pin 10 PWMB =>
+
+Pas encore fini...
+
+Batterie : 
+
+Usb-C Mâle => Usb-c to DC Jack (le bloc de charge accepte uniquement du DC Jack) => le bloc stockant les piles => 12V => Câble DC-Jack 5,5 x 2,1 mm M vers DC Jack M => Module DC-DC 24V/12V vers 5V 5A => câble usb classic to usb-c => Port USB-C de l'ESP32-S3 N16R8.
+
+> [!NOTE]
+> L'ESP32-S3 N16R8 a une fonctionnalité assez sympa, il supporte nativement du 5V (uniquement via son port USB-C). Il convertit cette tension en 3.3V pour son fonctionnement interne. 
+
+Un cheminement depuis le bloc de la batterie y sera dédiée. Le premier chemin, sera abaisser à 5V, pour alimenter l'ESP32 N16R8 (via sont port USB-C), le module UWB et les capteurs ultrasons/ultrasonique. L'autre chemin, sera à du 12V, et alimentera le driver, les moteurs.
+
+
+> [!WARNING]
+> Je ne suis pas du tout un érudit en tensions, quelques erreurs peuvent se présenter. Je notifierai/modifier ce texte en conséquences du résulat que je j'obtiendrai. Je vous conseille de vous référer à une llm (I.A générative) ou personne érudit dans ce domaine si vous ne respectez pas les composants de base. 
+
+# Tensions : 
+
+- L'ESP32 consomme du 5V par son port USB-C et 3.3V par ses broches, "L'ESP32-S3 N16R8 a une fonctionnalité assez sympa, il supporte nativement du 5V (uniquement via son port USB-C). Il convertit cette tension en 3.3V pour son fonctionnement interne.". Via section/rubrique Shéma du Cablage/Batterie. 
+
+Ainsi, nous utiliserons un composant pour abaisser la tension du bloc batterie, qui fournit du 12V, pour l'abaisser à du 5V, référez vous à la section "Schéma du cablage/Batterie" de ce document (je vous recommande vivement de consulter cette section).
+
+- Module UWB : Le port USB-C accepte/supporte du 5V (par la suite, il le converti en 3.3V), sur les pins/broches (que je ne vais pas utiliser), obligatoire d'envoyé sur une plage de 1.8V et 3.6V. 
+
+> [!NOTE]
+> Il est conseillé de fournir du 3.3V pour garantir la puissance de sortie optimal.
+
+- Driver : 
+
+Pour la logique (VCC), il accepte/supporte une plage entre 2.7V et 5.5V.
+
+Pour la puissance du moteur (VM) : Généralement jusqu'à 15V.
+
+> [!WARNING]
+> Dépassez cette valeur (15V), vous expose à des risques. 
+
+Je vous conseille de choisir du 12V pour le moteur. 
+
+> [NOTE]
+> Toutes les références des composants sera accesible gratuitement à la fin. 
+
+- Module de capteurs ultrasons/ultrasonic RCWL-1601 : Supporte une plage entre 3.3V à 5.5V
+
+- 3 piles Lithium-Ion 18650 2600mAh 3.7V 10A, fournissent au total &asymp; 11.1V. (3 * 3.7).
+
+> [!NOTE]
+> Une pile 18650 correspond à 3.7V.
+
+Donc, le bloc de piles peut fournir du 12V.
+
+Premier chemin : 
+
+12V => 5V => USB-C ESP32-N16R8 alimentera :  
+- Module UWB
+- 4 capteurs ultrasons 
+- VCC Pin du driver. 
+
+Deuxieme chemin : 
+
+12V alimentera : 
+- 2 moteurs
+- Driver. 
+
+
 # Voici l’intégralité du panier Aliexpress de ce projet :
 
 Robot-Poubelle : https://www.aliexpress.com/p/wish-manage/share.html?spm=a2g0o.best.headerAcount.6.2bb6142dnas95B&_gl=1*7mwwf7*_gcl_au*OTE1OTEzNjYyLjE3ODMwMjUyNDQ.*_ga*MjEwMDM3NDc0MS4xNzgzMDI1MjU3*_ga_VED1YSGNC7*czE3ODcwNzE2OTckbzExNSRnMCR0MTc4NzA3MTY5NyRqNjAkbDAkaDA.&smbPageCode=wishlist-amp&spreadId=9D17F73AD6E3321969CEB72831C0C71B5633AE79CA16C14777869F45B6FCB9BF
@@ -207,7 +304,6 @@ Station : https://www.aliexpress.com/p/wish-manage/share.html?spm=a2g0o.best.hea
 > [!WARNING]
 > # Attention 
 > Attention ! Ce projet est en cours de développement, attendez vous à quelques erreurs ou manque, je n’ai rien acheté pour l’instant. 
-
 
 Pour les anglophones, j’ai légèrement modifier la traduction du nom de ce projet, Trash-Autonomous (Poubelle-Autonome) pour les anglophone et Robot-Poubelle (Robot-Trash) pour les francophone. 
 
@@ -221,19 +317,23 @@ Voici le récapitulatif financiers du projet :
 
 # Robot-Poubelle :
 
-- Esp32 | : €
-- Moteur JGA25-370 | sous 170 de rpm, 12v et avec «With Fixed Bracket» : 14 € 
-- Driver TB6612FNG | modèle TB6612FNG, Welded ou unwelded je ne sais pas encore : 3,39 € (pour - Welded, car j’opte pour lui, pas sure à 100%).
+- Esp32-S3 | N16R8 Solered | * 2 (Multplié par 2, pour la station également) = 18 €
+- Moteur JGA25-370 | sous 130 de rpm, 12v et avec «With Fixed Bracket» : 14,79 € * 2 (multplié par 2) = 29, 58 €
+
+> [!NOTE]
+> Rappel : Robot-Poubelle aura 4 roues au total : 2 roues motorisées et 2 roues folles.
+
+- Driver TB6612FNG | modèle TB6612FNG, Welded : 3,39 € 
 - Capteurs Ultrasons (RCWL-1601, avec Interface I2C, mesure de Distance 2-4.5M) | 4 pcs : 8,19 €
-- Module UWB EWT550-7G9T10SP | EWT550-7G9T10SP + USB Cable (USB-C) : 12 € avec promotion et 14,22 € hors promotions. X2 (ou *2, multiplié par 2) = 12*2 = 24 € 
+- Module UWB EWT550-7G9T10SP | EWT550-7G9T10SP + USB Cable (USB-C) : 12 € avec promotion et 14,22 € hors promotions. *2 (multiplié par 2) = 12*2 = 24€ 
 - Fils Duponts, Kit 120 pcs (F-F et M-M) : 4,19 €
-- Duponts to PH2.0 (pour Moteur) : ! Vérification en cours...
-- Piles 18650 2600 mAh 3.7V 10A| 2pcs + 1pcs : 13,89 € pour 2 pcs, et 11€ pour 1 pcs =
-13, 89 + 11 = 26,89 €. Prix hors-promotions active. 
+- Duponts to PH2.0 (pour Moteur) | 6pins/broches : 5, 19 € 
+- Piles 18650 2600 mAh 3.7V 10A| 2pcs + 1pcs : 13,89 € pour 2 pcs, et 11€ pour 1 pcs = 13, 89 + 11 = 26,89 €. Prix hors-promotions active. 
 - Conteneur batterie/piles : 1,89 €
 - Câble Usb-C Femelle to Usb-C Male | modèle 240W-0.5M : 4,59 €
-- Connecteur alimentation, Usb-C Femelle to DC | Sous 12V et 5.5*2.1 de diamiètre interne du DC : 
-1, 42 €
+- Connecteur alimentation, Usb-C Femelle to DC | Sous 12V et 5.5*2.1 de diamiètre interne du DC : 1, 42 €
+- BreadBoard | 830 Tie : 3,09 € 
+- Module DC-DC 24V/12V vers 5V 5A : 2,38 €
 
 # Station : 
 
@@ -248,22 +348,45 @@ Les total des prix ne prennent pas en compte, les taxes ni le surcoût de livrai
 > # Attention 
 > Attention ! Ce projet est en cours de développement, attendez vous à quelques erreurs ou manque, je n’ai rien acheté pour l’instant. 
 
-X € pour l’électronique.
+# Mesures : 
 
-Une base (de 100mm) vaut 59, 46 € sous 20% de remplissage, hauteur de couche basse (de 0.20mm), PLA - Pro et FDM - Filaments et en classe « économique », prix avec réductions/promotions. 
+Robot-Poubelle :
 
+100mm de hauteur pour une base.
+120mm de rayon pour une base. 
+
+Station : 
+
+86,56 € pour l’électronique (hors livraisons, etc..)
+
+Une base (de 100mm) vaut 59, 46 € sous 20% de remplissage, hauteur de couche basse (de 0.20mm), PLA - Pro et FDM - Filaments et en classe « économique », prix avec réductions/promotions chez Abeille 3d.
 
 La station vaut 24, 34 € sous 20% de remplissage, hauteur de couche basse (de 0.20mm), PLA - Pro et 
-FDM - Filaments et en classe « économique », prix avec réductions/promotions. 
+FDM - Filaments et en classe « économique », prix avec réductions/promotions chez Abeille 3d. 
 
-# Prestataires d’imprimerie 3d : Abeille 3d 
+J'ai testé plusieurs prestataires d'imprimante 3d, mais Abeille 3d reste le moins chère. 
 
-Les prix sont vraiment abusée... je suis en pleine réflexion sur l’achat d’une imprimante 3d. Car, pour les prestataires de services d’imprimerie 3d, ils ajoutent souvent une grosse marge, ainsi, imprimer en 3d chez vous ou un Fablab revient généralement moins cher.  
+Les prix sont vraiment abusée chez les prestataires d'imprimerie 3d... pour les prestataires de services d’imprimerie 3d, ils ajoutent souvent une grosse marge, ainsi, imprimer en 3d chez vous ou chez un Fablab revient généralement moins cher.  
+
+Merci infiniment à @wc8g (Discord) pour l'assistance sur l'impression 3D des pièces !  
+
+# License :
+
+- Le logiciel est sous licence GNU GPLv3 :
+
+Le logiciel (code) est ouvert à tous. Tu es libre de l'utiliser, de le modifier et de le redistribuer. En contrepartie, si tu ameliores ou modifies ce logiciel, tes modifications **doivent également être publiées sous la même licence GPLv3** (principe du Copyleft). Cela garantit que le projet reste 100 % libre et open-source.
+
+- Le schéma du câblage, modélisation 3d sont sous license CC BY-SA 4.0 : 
+
+Tu peux imprimer, modifier, transformer et partager librement les fichiers 3D (FreeCAD) et les schémas électroniques (EasyEDA). En échange, tu dois **créditer l'auteur** (*Diamond Technologies / MILKAA*) et redistribuer tes modifications **sous la même licence CC BY-SA 4.0**.
 
 # Ressources : 
 
 Email : milkaa.linux@gmail.com
 Discord : milka330_47221
 
-PS : Resonance by HOME c’est la meilleur musique ! Et The Caretaker aussi.  
+PS : Resonance by HOME et The Caretake sont les meilleurs musiques !  
 
+N'hésitez surtout pas me contacter si vous avez besoin d'aide, suggestions, etc... ! 
+
+MILKAA and Diamond Technologies | Tout droits réservés. 

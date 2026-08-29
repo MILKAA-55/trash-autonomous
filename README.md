@@ -33,7 +33,6 @@ Robot Trash uses "UWB" technology, which allows more accurate localization and p
 # How does UWB TWR work?:
 
 > [!WARNING]
-> ### Warning
 > 2 uwb-twr modules are mandatory! 
 
 A first uwb module designated as the host sends a signal to the second module; the station records the time, then the tag (in this case, the robot), processes the response, and sends it back to the station (to the second uwb module), which performs a calculation (in seconds):
@@ -53,12 +52,15 @@ $$\text{Distance} = \text{Travel Time} \times c$$
 
 There you go! And the more UWB module you have, the more accurate and intelligent the robot/system will be. The "Trash-Autonomous" project offers 2 uwb modules (one in the trash bin box and another, presented as a "station"). Another box, named "Relay" is available if you want an improvement in precision.
 
-Additionally, I created a text file to provide more context, history, and a follow-up on the challenges encountered during the project.
+Additionally, I created a text file to provide more context, history, and a follow-up on the challenges encountered during the project. Detailed documentation to reproduce Trash-Autonoumous:
 
-* For the French version, see `Trash-Autonomous-fr`
-* The English version (`Trash-Autonomous-en`) is coming soon!
+* For the French version, see `French/Trash-Autonomous-fr`
+* The English version (`English/Trash-Autonomous-en`) is coming soon!
 
-Both `.pdf` and `.md` versions are available for each language.
+`.md` version is available for each language.
+
+## Acknowledgments:
+Huge thanks to @wc8g (Discord) for the help with 3D printing the parts!
 
 I use FreeCAD btw.
 

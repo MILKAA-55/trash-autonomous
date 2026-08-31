@@ -1,7 +1,12 @@
-# Projet 1 : Robot-Poubelle
+# Robot-Poubelle | Documentation : 
 
 > [!Note]
 > ⚠️ Projet en cours de développement. La documentation est susceptible de changer.
+
+Ce document vise à vous guider pour reproduire Robot-Poubelle, il apporte du contexte et le déroulement chronologique du projet. 
+
+> [!Note]
+> Status du projet : En Pause
 
 Une petite poubelle robot (pour habitation) intelligente capable d’aller à un point A jusqu’à un point B en toute autonomie, l’utilisateur du produit aura une télécommande/station pour exécuter les commandes/instructions à distance. Elle sera en forme d’un petit cylindre. 
 
@@ -62,8 +67,6 @@ Pour avoir une meilleur connaissance, voici un récapitulatif :
 
 Textes à propos des limitation et avantages de l'UWB, provenant https://tecnoloblog.com/fr/technologie-UWB-ultra-large-bande/#Limitaciones_y_retos_actuales_de_la_UWB | Technoloblog. 
 
-Bon, désolé d’avoir fais du copiez-coller pour la description de l’uwb.
-
 Le fait d’avoir 3 modules uwb twr améliore grandement la précisions, avec 3 modules, on peut faire de la triangulation. Avec seulement 2 modules, on ne peut qu'obtenir la distance, mais pas un plan précis, d’où se trouve exactement les modules; avec 2 modules nous avons uniquement la distance (imprécis pour une navigation), alors qu’avec +3 modules, nous avons une localisation complète (beaucoup plus précis). 
 
 # Système de fixation : 
@@ -97,14 +100,14 @@ Inconvénients de 4 roues motorisés : plus complexe, il faut synchroniser 4 mot
 
 # Micro-Controlleur : 
 
-J'hésitais entre le Raspberry Pi 5/4 ou un Esp32, mais, j'opte finalement pour un Esp32. Pourquoi ?? : 
+J'hésitais entre un Raspberry Pi 5/4 ou un Esp32, mais, j'opte finalement pour un Esp32. Pourquoi ?? : 
 
 - Moins de consommation électrique.
 - Suffisant pour un prototype.
 - Démarrage instannée (Raspberry Pi charge un noyaux Linux).
 - Prix moins abusif.
 
-Son seul point négatif est qu'il ne supporte pas Python, il lui faut du Micro-Python ou du C++. Ainsi, je vais programmer le software (logiciel) de ce projet en MicroPython, mais ensuite faire une .... en C++, lorsque j'aurai acquis une bonne connaisance en C++. Pour déjà, améliorer le temps de traitement (C++ est plus rapide que Python1)
+Son seul point négatif est qu'il ne supporte pas Python, il lui faut du Micro-Python ou du C++. Ainsi, je vais programmer le software (logiciel) de ce projet en MicroPython, mais ensuite faire une migration en C++, lorsque j'aurai acquis une bonne connaisance en C++. Pour déjà, améliorer le temps de traitement (C++ est plus rapide que Python1)
 
 Attention, nuance ! l'ESP32 n'est pas parfait, mais il convient pour ce projet, par exemple si vous souhaitez faire des algorithme de navigation plus lourd, ajouter une caméra, le Raspberry Pi est mieux ! 
 
@@ -118,7 +121,7 @@ Source : Wikipédia
 
 # Driver :
 
-Le Raspberry Pi ne sait pas communiquer avec un moteur, alors, il est nécessité d'implémenter un driver lorsque on souhaite utiliser un moteur (dans mon cas); ainsi, j’ai choisis le driver “TB6612FNG Motor Drive Board Module, High-Performance Ultra-L298N Self-Balancing Car Electric Drive Board”. Toutes le panier d’achats (acheté sur Aliexpress) sera disponible gratuitement à la fin du document (vers la rubrique «Informations complémentaires :»). 
+L'ESP32 ne sait pas communiquer avec un moteur, alors, il est nécessité d'implémenter un driver lorsque on souhaite utiliser un moteur (dans mon cas); ainsi, j’ai choisis le driver “TB6612FNG Motor Drive Board Module, High-Performance Ultra-L298N Self-Balancing Car Electric Drive Board”. Toutes le panier d’achats (acheté sur Aliexpress) sera disponible gratuitement à la fin du document (vers la rubrique «Informations complémentaires :»). 
 
 Moteur : JGA25-370 Miniature Geared DC Motor With Encoder, 6V/12V/24V, Reversible Rotation, Torque up to 9 KG.CM, Encoder Geared DC Motor. Avec 170 de rpm, et sous 12v. 
 
@@ -133,7 +136,7 @@ J’ai trouvé une alternative moins chère, et suffisant pour mon projet; ainsi
 Provient de la fiche "Présentation" de la page Aliexpress.  
 
 > [!NOTE]
-> Ne vous inquitiée pas, ce sont des capuchont en plastique (jumpers) qui relient deux broches en elles pour configuerer la carte en usine. Il suffit de retirer les capuchont pour y découvrir des broches mâles (pins). 
+> Ne vous inquitiez pas, ce sont des capuchons en plastique (jumpers) qui relient deux broches en elles pour configurer la carte en usine. Il suffit de retirer les capuchons pour y découvrir des broches femelle (pins). 
 
 On ne touchera pas le port usb-c, on branchera des fils duponts aux broches centrales du module uwb (photo ci-contre). 
 
@@ -143,7 +146,7 @@ Tout le schéma du cablage est disponible gratuitement ! Descendez un peu
 
 J’ai longtemps réfléchi à quelle type de batterie pourrait me convenir, pour ce projet, et j’ai pris la décision de prendre des piles type classique (petite cylindrique), les 18650 2600 mAh 3.7V 10A. Ainsi, il y aura 3 piles 18650.... qui seront stocké sur un dock, on pourra le recharger en usb-c.
 
-Voici le chemin pour la batterie : Recharge en Usb-C => Usb-C to (vers) DC (boîtier stockant/rechargeant les piles).
+Voici le chemin pour la batterie : Recharge en Usb-C => Usb-C to (vers) DC (boîtier stockant/rechargeant les piles). 
 
 J’imagine aussi, pour la v2 de ce projet, une borne de recharge automatique, où lorsque le robot sera à une batterie faible, il ira à une borne de recharge automatiquement. 
 
@@ -187,7 +190,15 @@ Aussi, il y a un couvercle pour cacher le BOM (les composants) qui seront stock�
 
 Pas fini...
 
-# Modélisation 3d : 
+> [!Note]
+> JSON est conçu pour l'envoie/réception de données entre tierces, pour exemple : entre une application et un serveur : 
+> Pour enregister votre compte sur un réseau social, l'application doit envoyer les données de votre compte sur un serveur, ainsi, JSON est devenue une référence incontournable pour l'envoie/réception de donnèes, il est rapide, léger et lisible par n'importe quelle personne. 
+
+Pourquoi je n'ai pas programmé le config en .json? C'est une très bonne question, déjà, généralement, MicroPython est plus performant que JSON, surtout pour les microcontrôleurs type ESP32, MicroPython gère mieux les ressources et la mémoire que JSON, plus efficace; quant à JSON, dont il a besoin de conversions complexe/lourde. Parser (lire/exploiter des données) du JSON est plus lourd en ressources que MicroPython.
+
+La gestion des ressources sont très important lorsque on utilise des microcontrôleurs.  
+
+# Modélisation 3d/CAO (Conception assisté par ordinateur) : 
 
 Le 10 juillet, j’avais fini la grosse vérification de l'ensemble des composants, ainsi j’ai pu passer à la modélisation 3d du boîtier, je l’ai réalisé sur le logiciel de CAO FreeCAD. 
 Voici quelques images : 
@@ -219,17 +230,29 @@ Bon, je sais que je peux utiliser des Nets Labs, mais j'ai la flemme et pas le t
 Driver : 
 
 Pin 2 VCC => 3V3 (de l'ESP32).
+
 Pin 3 GND => GND (de l'ESP32).
+
 Pin 4 A1 => Pin 6 M+ du 1er moteur (E1). 
+
 Pin 5 A2 => Pin 7 M- du 1er moteur (E1).
+
 Pin 6 B2 => Pin 1 M- du 2e moteur (E2).
+
 Pin 7 B1 => Pin 6 M+ du 2e moteur (E2).
+
 Pin 16 PWMA => GPIO 44/RXO, Pin 39 (de l'esp32).
+
 Pin 15 AIN2 => Pin 4, GPIO4 de l'ESP32.
+
 Pin 14 AIN1 => Pin 38, GPIO 2 de l'ESP32. 
+
 Pin 13 STBY => 3V3 de l'ESP32. 
+
 Pin 12 BIN1 =>
+
 Pin 11 BIN2 =>
+
 Pin 10 PWMB =>
 
 Pas encore fini...
@@ -383,9 +406,10 @@ Tu peux imprimer, modifier, transformer et partager librement les fichiers 3D (F
 # Ressources : 
 
 Email : milkaa.linux@gmail.com
+
 Discord : milka330_47221
 
-PS : Resonance by HOME et The Caretake sont les meilleurs musiques !  
+PS : Resonance by HOME et The Caretaker sont les meilleurs musiques !  
 
 N'hésitez surtout pas me contacter si vous avez besoin d'aide, suggestions, etc... ! 
 

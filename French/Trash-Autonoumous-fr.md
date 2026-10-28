@@ -96,7 +96,15 @@ Les inconvénients des 2 roues motorisé :
  
 Avantages de 4 roues motorisé : Bien meilleure motricité et franchissement d'obstacles,
 plus de couple disponible, utile si le robot est lourd (batterie industrielle + RPi + capteurs), meilleure stabilité sur sol irrégulier
-Inconvénients de 4 roues motorisés : plus complexe, il faut synchroniser 4 moteurs (surtout en virage, sinon ça patine ou ça force), Plus cher, plus gourmand en énergie, nécessite un driver capable de gérer 4 canaux (ou 2 drivers). Je choisis du 4 roues, dont 2 folles et motorisée, littéralement du entraînement différentiel (Differential Driver).
+Inconvénients de 4 roues motorisés : plus complexe, il faut synchroniser 4 moteurs (surtout en virage, sinon ça patine ou ça force), Plus cher, plus gourmand en énergie, nécessite un driver capable de gérer 4 canaux (ou 2 drivers).
+
+Je choisis du 4 roues, dont 2 folles et motorisée, littéralement du entraînement différentiel (Differential Driver).
+
+
+
+
+
+
 
 # Micro-Controlleur : 
 
@@ -276,7 +284,7 @@ Un cheminement depuis le bloc de la batterie y sera dédiée. Le premier chemin,
 
 Ainsi, nous utiliserons un composant pour abaisser la tension du bloc batterie, qui fournit du 12V, pour l'abaisser à du 5V, référez vous à la section "Schéma du cablage/Batterie" de ce document (je vous recommande vivement de consulter cette section).
 
-- Module UWB : Le port USB-C accepte/supporte du 5V (par la suite, il le converti en 3.3V), sur les pins/broches (que je ne vais pas utiliser), obligatoire d'envoyé sur une plage de 1.8V et 3.6V. 
+- Module UWB : Le port USB-C accepte/supporte du 5V (par la suite, il le converti en 3.3V), sur les pins/broches (que je ne vais pas utiliser), obligatoire d'envoyé une plage entre 1.8V et 3.6V. 
 
 > [!NOTE]
 > Il est conseillé de fournir du 3.3V pour garantir la puissance de sortie optimal.
@@ -293,7 +301,7 @@ Pour la puissance du moteur (VM) : Généralement jusqu'à 15V.
 Je vous conseille de choisir du 12V pour le moteur. 
 
 > [NOTE]
-> Toutes les références des composants sera accesible gratuitement à la fin. 
+> Toutes les références des composants seront accesible gratuitement à la fin. 
 
 - Module de capteurs ultrasons/ultrasonic RCWL-1601 : Supporte une plage entre 3.3V à 5.5V
 
@@ -311,12 +319,13 @@ Premier chemin :
 - 4 capteurs ultrasons 
 - VCC Pin du driver. 
 
-Deuxieme chemin : 
+Deuxième chemin : 
 
 12V alimentera : 
 - 2 moteurs
 - Driver. 
 
+DC Femelle to Dupont => pin Driver (sauf pin VCC, qui lui a besoin de 5v) => 
 
 # Voici l’intégralité du panier Aliexpress de ce projet :
 
@@ -393,6 +402,7 @@ Les prix sont vraiment abusée chez les prestataires d'imprimerie 3d... pour les
 
 Merci infiniment à @wc8g (Discord) pour l'assistance sur l'impression 3D des pièces !  
 
+
 # License :
 
 - Le logiciel est sous licence GNU GPLv3 :
@@ -403,13 +413,21 @@ Le logiciel (code) est ouvert à tous. Tu es libre de l'utiliser, de le modifier
 
 Tu peux imprimer, modifier, transformer et partager librement les fichiers 3D (FreeCAD) et les schémas électroniques (EasyEDA). En échange, tu dois **créditer l'auteur** (*Diamond Technologies / MILKAA*) et redistribuer tes modifications **sous la même licence CC BY-SA 4.0**.
 
+# Remierciments : 
+
+Merci beaucoup à @wc8g (Discord) pour l'assistance sur l'impression 3D des pièces !
+
+Merci également à @treguy et @arkelange (pseudo Discord) pour leurs aides sur FreeCAD. 
+
+Et merci aux personnes qui m'ont soutenu durant le développement de ce projet. 
+
 # Ressources : 
 
 Email : milkaa.linux@gmail.com
 
 Discord : milka330_47221
 
-PS : Resonance by HOME et The Caretaker sont les meilleurs musiques !  
+PS : Resonance by HOME est la meilleur musique !  
 
 N'hésitez surtout pas me contacter si vous avez besoin d'aide, suggestions, etc... ! 
 

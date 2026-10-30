@@ -8,6 +8,10 @@ Ce document vise à vous guider pour reproduire Robot-Poubelle, il apporte du co
 > [!Note]
 > Status du projet : Dévelopement actif
 
+> [!Note]
+> Projet inspiré à l'origine par les travaux de HTX Studio.
+
+
 Une petite poubelle robot (pour habitation) intelligente capable d’aller à un point A jusqu’à un point B en toute autonomie, l’utilisateur du produit aura une télécommande/station pour exécuter les commandes/instructions à distance. Elle sera en forme d’un petit cylindre. 
 
 Ayant un habitacle dans la cuve, non visible pour y ranger les composants et le matériel nécessaire.
@@ -79,31 +83,12 @@ Le sac poubelle restera coincée, se fera prendre littéralement en sandwich.
 > Tout le panier de l'ensemble des composants sera divulgué à la fin et également des fichiers de modélisation 3d, gratuitement.
 
 # Roues : 
-Elle sera doté de 2 roues motrices (en courant continue) avec les 2 roues folles restantes (pour équilibrer le châssis, celle-là ne sont pas motorisé).
 
-Pourquoi 2 roues ??
+Elle sera dotées de 3 roues omnidirectionnelles, cela permet au robot de pivoter sur lui-même et de se glisser dans n'importe quelle direction sans avoir avoir à tourner son corps. 
 
-Les avantages de 2 roues motorisés : 
+![Image système des 3 roues de HTX Studio](/img/wheels.png)
 
-- Meilleure autonomie (consommation d’électrique faible) 
-- Moins cher
-- Plus simple à configurer (hardware) et contrôle de trajectoire simple (différence de vitesse gauche/droite = rotation). 
-
-
-Les inconvénients des 2 roues motorisé : 
-
-- moins de motricité si le sol est irrégulier, glissant, ou en extérieur (herbe, gravier, petite pente), les roues folles peuvent accrocher sur un obstacle (seuil de porte, petit caillou) .
- 
-Avantages de 4 roues motorisé : Bien meilleure motricité et franchissement d'obstacles,
-plus de couple disponible, utile si le robot est lourd (batterie industrielle + RPi + capteurs), meilleure stabilité sur sol irrégulier
-Inconvénients de 4 roues motorisés : plus complexe, il faut synchroniser 4 moteurs (surtout en virage, sinon ça patine ou ça force), Plus cher, plus gourmand en énergie, nécessite un driver capable de gérer 4 canaux (ou 2 drivers).
-
-Je choisis du 4 roues, dont 2 folles et motorisée, littéralement du entraînement différentiel (Differential Driver).
-
-
-
-
-
+> Image provenant de la vidéo "We Built an Auto-aiming Trash Can" de HTX Studio. 
 
 
 # Micro-Controlleur : 
@@ -361,6 +346,9 @@ Résolution :
 
 # Problème de tensions...
 
+Le moteur et le driver nécessite du 12v, sans problème ! Mais, la breadboard ne supporte pas du 12v...
+
+.....
 
 
 
@@ -434,7 +422,7 @@ Le logiciel (code) est ouvert à tous. Tu es libre de l'utiliser, de le modifier
 
 - Le schéma du câblage, modélisation 3d sont sous license CC BY-SA 4.0 : 
 
-Tu peux imprimer, modifier, transformer et partager librement les fichiers 3D (FreeCAD) et les schémas électroniques (EasyEDA). En échange, tu dois **créditer l'auteur** (*Diamond Technologies / MILKAA*) et redistribuer tes modifications **sous la même licence CC BY-SA 4.0**.
+Tu peux imprimer, modifier, transformer et partager librement les fichiers 3D (FreeCAD) et les schémas électroniques (EasyEDA). En échange, tu dois **créditer l'auteur** (*MILKAA*) et redistribuer tes modifications **sous la même licence CC BY-SA 4.0**.
 
 # Remierciments : 
 
@@ -443,6 +431,8 @@ Merci beaucoup à @wc8g (Discord) pour l'assistance sur l'impression 3D des piè
 Merci également à @treguy et @arkelange (pseudo Discord) pour leurs aides sur FreeCAD. 
 
 Et merci aux personnes qui m'ont soutenu durant le développement de ce projet. 
+
+Merci aux travaux de HTX Studio. 
 
 # Ressources : 
 
@@ -454,4 +444,4 @@ PS : Resonance by HOME est la meilleur musique !
 
 N'hésitez surtout pas me contacter si vous avez besoin d'aide, suggestions, etc... ! 
 
-MILKAA and Diamond Technologies | Tout droits réservés. 
+MILKAA | Tout droits réservés. 

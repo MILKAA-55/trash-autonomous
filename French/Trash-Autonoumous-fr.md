@@ -6,7 +6,7 @@
 Ce document vise à vous guider pour reproduire Robot-Poubelle, il apporte du contexte et le déroulement chronologique du projet. 
 
 > [!Note]
-> Status du projet : En Pause
+> Status du projet : Dévelopement actif
 
 Une petite poubelle robot (pour habitation) intelligente capable d’aller à un point A jusqu’à un point B en toute autonomie, l’utilisateur du produit aura une télécommande/station pour exécuter les commandes/instructions à distance. Elle sera en forme d’un petit cylindre. 
 
@@ -340,6 +340,29 @@ Station : https://www.aliexpress.com/p/wish-manage/share.html?spm=a2g0o.best.hea
 Pour les anglophones, j’ai légèrement modifier la traduction du nom de ce projet, Trash-Autonomous (Poubelle-Autonome) pour les anglophone et Robot-Poubelle (Robot-Trash) pour les francophone. 
 
 Contactez moi si les liens sont devenu inaccessible (discord : milka330_47221 | E-mail : milkaa.linux@gmail.com). Je change rarement de nom d’utilisateur/mail, mais regarder la bio de mon profil Github (MILKAA-55) pour obtenir les derniers versions de mon e-mail et Discord. 
+
+# Problématique rencontrées/reconnu : 
+
+Durant le dévelopement de ce projet, j'ai bien-évidement rencontrées plusieurs problèmes, j'ai réussis à les surpasser (via une I.A Générative, Reddit, Discord...). Mais il y a eu 2 gros problèmes dont j'ai eu du mal à les corriger, dont : 
+
+# FreeCAD : "Erreur" cavité/perçage sur une surface-plate:
+
+Le modèle de Robot-Poubelle a besoin d'une cavité (et un perçage) sur la base 1 (du bas vers le haut) pour le port usb-c et pour les roues. Cependant, FreeCAD n'accepte pas l'ajout d'un trou sur une surface non-plate, FreeCAD exige impérativement que l'esquisse (Sketch) soit appuyée sur une surface parfaitement plane. 
+
+Résolution : 
+
+> [!NOTE]
+> ⚠️ **Astuce FreeCAD - Opération de soustraction sur surface courbe : Exemple** 
+> L'ordre de sélection est primordial dans l'atelier **Part** :
+> 1. Sélectionnez **d'abord** le corps principal (ex: le cylindre / la coque).
+> 2. Maintenez `Ctrl` et sélectionnez **ensuite** l'outil de découpe (ex: le rectangle USB-C étendu).
+> 3. Lancez l'outil de soustraction : le cylindre sera creusé proprement par la forme, peu importe la courbure de la surface !
+
+
+# Problème de tensions...
+
+
+
 
 # Informations complémentaire : 
 

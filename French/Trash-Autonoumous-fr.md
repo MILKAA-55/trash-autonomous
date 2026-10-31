@@ -185,10 +185,14 @@ Aussi, il y a un couvercle pour cacher le BOM (les composants) qui seront stock�
 Pas fini...
 
 > [!NOTE]
+> Tous ces fichiers (à part eux les plus simple, exemple config.py) proposent des commentaires (uniquement en anglais) pour facilitez la compréhension. 
+
+
+> [!NOTE]
 > JSON est conçu pour l'envoie/réception de données entre tierces, pour exemple : entre une application et un serveur : 
 > Pour enregister votre compte sur un réseau social, l'application doit envoyer les données de votre compte sur un serveur, ainsi, JSON est devenue une référence incontournable pour l'envoie/réception de donnèes, il est rapide, léger et lisible par n'importe quelle personne. 
 
-Pourquoi je n'ai pas programmé le config en .json? C'est une très bonne question, déjà, généralement, MicroPython est plus performant que JSON, surtout pour les microcontrôleurs type ESP32, MicroPython gère mieux les ressources et la mémoire que JSON, plus efficace; quant à JSON, dont il a besoin de conversions complexe/lourde. Parser (lire/exploiter des données) du JSON est plus lourd en ressources que MicroPython.
+**# Pourquoi je n'ai pas programmé le config en .json?** C'est une très bonne question, déjà, généralement, MicroPython est plus performant que JSON, surtout pour les microcontrôleurs type ESP32, MicroPython gère mieux les ressources et la mémoire que JSON, plus efficace; quant à JSON, dont il a besoin de conversions complexe/lourde. Parser (lire/exploiter des données) du JSON est plus lourd en ressources que MicroPython.
 
 La gestion des ressources sont très important lorsque on utilise des microcontrôleurs.  
 

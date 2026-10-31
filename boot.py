@@ -1,4 +1,3 @@
-from update import Updater
 from uwb import UWB_Method
 import gc
 

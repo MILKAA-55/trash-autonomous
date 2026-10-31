@@ -40,9 +40,6 @@ Plus tu veux de précision sans infrastructure, plus il faut de calcul embarqué
 
 Ainsi, je choisis la technologie UWB pour la «connaissance» de l’environnement, néanmoins, il existe plusieurs type d’UWB : 
 
-> [!Note]
-> PS : Si vous souhaitez, connaître plus à propos de l’uwb, suivez https://tecnoloblog.com/fr/technologie-UWB-ultra-large-bande/ (aucun lien affilié, t’inquiète pas).
-
 - UWB / TOA/ToF (Time of Arrival / Time of Flight) : On mesure le temps que met le signal radio pour parcourir la distance entre les 2 modules. Comme la vitesse des ondes radio est connue (vitesse de la lumière), on en déduit la distance, (distance = temps de vol x vitesse de la lumière). 
 
 **AVANTAGES  :** Précision de l’ordre de 10-30 cm avec l’UWB (grâce à la largeur des bandes très large du signal, cela permet une mesure temporelle très fine).
@@ -54,6 +51,8 @@ Résultat : Donne uniquement la distance (pas la direction).
 
 Je choisis la technique de l’UWB TWR, avec uniquement 2 modules (car le coût est assez élevé, 23 euro pour le DWM1000 et 43 euro pour le DWM 3000). Je ferai de la MVP thinking (start small, iterate) littéralement, je testerai pendant quelques semaines si 2 modules UWB TWR suffisent et si le robot-poubelle n’est pas en difficulté, si oui, alors j’achèterai un 3e module et un esp32 (et une batterie et un bouton, j’y en reviendrai plus tard).
 
+> [!NOTE]
+> PS : Si vous souhaitez, connaître plus à propos de l’uwb, suivez https://tecnoloblog.com/fr/technologie-UWB-ultra-large-bande/ (aucun lien affilié, t’inquiète pas).
 
 > Notez que le nombre de module uwb influence directement la puissance et intelligence du système (dans notre cas, le système est le robot-poubelle). Donc, oui, pour de la localisation indoor (intérieur), l’UWB est une excellente solution ! 
 
@@ -85,6 +84,8 @@ Le sac poubelle restera coincée, se fera prendre littéralement en sandwich.
 # Roues : 
 
 Elle sera dotées de 3 roues omnidirectionnelles, cela permet au robot de pivoter sur lui-même et de se glisser dans n'importe quelle direction sans avoir avoir à tourner son corps. 
+
+2 roue motorisées et 1 roue folle
 
 ![Image système des 3 roues de HTX Studio](/img/wheels.png)
 
@@ -183,7 +184,7 @@ Aussi, il y a un couvercle pour cacher le BOM (les composants) qui seront stock�
 
 Pas fini...
 
-> [!Note]
+> [!NOTE]
 > JSON est conçu pour l'envoie/réception de données entre tierces, pour exemple : entre une application et un serveur : 
 > Pour enregister votre compte sur un réseau social, l'application doit envoyer les données de votre compte sur un serveur, ainsi, JSON est devenue une référence incontournable pour l'envoie/réception de donnèes, il est rapide, léger et lisible par n'importe quelle personne. 
 
@@ -220,59 +221,51 @@ Pour ce prototype, je ne ferai pas de PCB, ainsi toute le cablage se fera par de
 
 Bon, je sais que je peux utiliser des Nets Labs, mais j'ai la flemme et pas le temps... 
 
-Driver : 
+![Schéma de cablage de Robot-Poubelle](/img/Main/PCB/Schematic_trash_autonoumous-1.png)
 
-Pin 2 VCC => 3V3 (de l'ESP32).
+> [!NOTE]
+> Une version en pdf de ce schéma de cablage est disponible : /img/pcb/Shematic_trash_autonoumous.pdf
 
-Pin 3 GND => GND (de l'ESP32).
 
-Pin 4 A1 => Pin 6 M+ du 1er moteur (E1). 
 
-Pin 5 A2 => Pin 7 M- du 1er moteur (E1).
 
-Pin 6 B2 => Pin 1 M- du 2e moteur (E2).
 
-Pin 7 B1 => Pin 6 M+ du 2e moteur (E2).
+# Batterie : 
 
-Pin 16 PWMA => GPIO 44/RXO, Pin 39 (de l'esp32).
-
-Pin 15 AIN2 => Pin 4, GPIO4 de l'ESP32.
-
-Pin 14 AIN1 => Pin 38, GPIO 2 de l'ESP32. 
-
-Pin 13 STBY => 3V3 de l'ESP32. 
-
-Pin 12 BIN1 =>
-
-Pin 11 BIN2 =>
-
-Pin 10 PWMB =>
-
-Pas encore fini...
-
-Batterie : 
+Le premier acheminement est : 
 
 Usb-C Mâle => Usb-c to DC Jack (le bloc de charge accepte uniquement du DC Jack) => le bloc stockant les piles => 12V => Câble DC-Jack 5,5 x 2,1 mm M vers DC Jack M => Module DC-DC 24V/12V vers 5V 5A => câble usb classic to usb-c => Port USB-C de l'ESP32-S3 N16R8.
+
+Par la suite, ça sera l'ESP32 qui distribura l'énergie. 
+
 
 > [!NOTE]
 > L'ESP32-S3 N16R8 a une fonctionnalité assez sympa, il supporte nativement du 5V (uniquement via son port USB-C). Il convertit cette tension en 3.3V pour son fonctionnement interne. 
 
 Un cheminement depuis le bloc de la batterie y sera dédiée. Le premier chemin, sera abaisser à 5V, pour alimenter l'ESP32 N16R8 (via sont port USB-C), le module UWB et les capteurs ultrasons/ultrasonique. L'autre chemin, sera à du 12V, et alimentera le driver, les moteurs.
 
+![.....](/img/Main/Battery/2dc-1.png)
+
+
+> [!NOTE]
+> Lisez la rubrique "Tensions" (juste en-dessous) pour connaitre les raisons et les tensions supportées ou non par un composant (c'est juste facultative)
 
 > [!WARNING]
 > Je ne suis pas du tout un érudit en tensions, quelques erreurs peuvent se présenter. Je notifierai/modifier ce texte en conséquences du résulat que je j'obtiendrai. Je vous conseille de vous référer à une llm (I.A générative) ou personne érudit dans ce domaine si vous ne respectez pas les composants de base. 
 
 # Tensions : 
 
-- L'ESP32 consomme du 5V par son port USB-C et 3.3V par ses broches, "L'ESP32-S3 N16R8 a une fonctionnalité assez sympa, il supporte nativement du 5V (uniquement via son port USB-C). Il convertit cette tension en 3.3V pour son fonctionnement interne.". Via section/rubrique Shéma du Cablage/Batterie. 
+- L'ESP32 consomme du 5V par son port USB-C et 3.3V par ses broches. ! Le port usb-c sera utilisé uniquement pour l'énergie/courant ! 
 
-Ainsi, nous utiliserons un composant pour abaisser la tension du bloc batterie, qui fournit du 12V, pour l'abaisser à du 5V, référez vous à la section "Schéma du cablage/Batterie" de ce document (je vous recommande vivement de consulter cette section).
+Ainsi, nous utiliserons un composant pour abaisser la tension du bloc batterie, qui fournit du 12V, pour l'abaisser à du 5V.
 
 - Module UWB : Le port USB-C accepte/supporte du 5V (par la suite, il le converti en 3.3V), sur les pins/broches (que je ne vais pas utiliser), obligatoire d'envoyé une plage entre 1.8V et 3.6V. 
 
 > [!NOTE]
 > Il est conseillé de fournir du 3.3V pour garantir la puissance de sortie optimal.
+
+
+
 
 - Driver : 
 
@@ -285,32 +278,32 @@ Pour la puissance du moteur (VM) : Généralement jusqu'à 15V.
 
 Je vous conseille de choisir du 12V pour le moteur. 
 
-> [NOTE]
-> Toutes les références des composants seront accesible gratuitement à la fin. 
 
 - Module de capteurs ultrasons/ultrasonic RCWL-1601 : Supporte une plage entre 3.3V à 5.5V
 
-- 3 piles Lithium-Ion 18650 2600mAh 3.7V 10A, fournissent au total &asymp; 11.1V. (3 * 3.7).
+- 3 piles Lithium-Ion 18650 2600mAh 3.7V 10A, fournissent au total &asymp; 11.1V | (3 * 3.7).
 
 > [!NOTE]
 > Une pile 18650 correspond à 3.7V.
 
-Donc, le bloc de piles peut fournir du 12V.
+Donc, le bloc de piles fournit du 12V.
 
-Premier chemin : 
+# Premier chemin : 
 
-12V => 5V => USB-C ESP32-N16R8 alimentera :  
+12V => 5V => USB-C ESP32-N16R8 (alimentera) :  
 - Module UWB
 - 4 capteurs ultrasons 
-- VCC Pin du driver. 
+- VCC Pin du driver
 
-Deuxième chemin : 
+# Deuxième chemin : 
 
 12V alimentera : 
 - 2 moteurs
-- Driver. 
+- Driver
 
-DC Femelle to Dupont => pin Driver (sauf pin VCC, qui lui a besoin de 5v) => 
+DC Femelle to Dupont => pin VM et GND du Driver (transfert via les pins AO1/AO2 et BO1/BO2) => pin rouge du Moteur 
+
+
 
 # Voici l’intégralité du panier Aliexpress de ce projet :
 
@@ -342,13 +335,6 @@ Résolution :
 > 1. Sélectionnez **d'abord** le corps principal (ex: le cylindre / la coque).
 > 2. Maintenez `Ctrl` et sélectionnez **ensuite** l'outil de découpe (ex: le rectangle USB-C étendu).
 > 3. Lancez l'outil de soustraction : le cylindre sera creusé proprement par la forme, peu importe la courbure de la surface !
-
-
-# Problème de tensions...
-
-Le moteur et le driver nécessite du 12v, sans problème ! Mais, la breadboard ne supporte pas du 12v...
-
-.....
 
 
 

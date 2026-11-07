@@ -62,7 +62,7 @@ Additionally, I created a text file to provide more context, history, and a foll
 ## Acknowledgments:
 Huge thanks to @wc8g (Discord) for the help with 3D printing the parts!
 
-Thanks also to @treguy and @arkelange (aka Discord) for their help on FreeCAD. 
+Thanks also to @treguy and @arkelange (Discord) for their help on FreeCAD. 
 
 And thank you to the people who supported me during the development of this project. 
 

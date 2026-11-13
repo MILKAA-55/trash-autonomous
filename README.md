@@ -2,6 +2,8 @@
 
 Small self-contained bin capable of moving in an indoor environment, entirely in Python. A small intelligent robot (for an indoor environment) capable of going from point A to point B independently, the product user will have a station to execute commands/instructions remotely. It will have the shape of a small cylinder. Its height is modular (designed for 30cm, too much height is risky). The robot is segmented into several bases (to reduce printing costs).
 
+Dashboard version: 1.1 
+
 ![img1](img/Main/17.png)
 
 A lid is provided to hide the BOM (components); simply lift the lid up to access the BOMs, insert your finger into the small hole, and lift/reassemble.
@@ -17,8 +19,8 @@ And for the station, it's just a Esp32 (with Terminal), [module uwb with usb cab
 
 > [!Warning]
 > AliExpress links can be unstable over time. If a link is broken or unavailable, please refer to the local BOM files:
-> * French version: `French/bom-fr`
-> * English version: `English/bom-en` is coming soon!
+> * French version: `docs/French/bom-fr`
+> * English version: `docs/English/bom-en` is coming soon!
 
 > `.md` version is available for each language.
 
@@ -63,8 +65,8 @@ There you go! And the more UWB module you have, the more accurate and intelligen
 
 Additionally, I created a text file to provide more context, history, and a follow-up on the challenges encountered during the project. Detailed documentation to reproduce Trash-Autonoumous:
 
-* For the French version, see `French/Trash-Autonomous-fr`
-* The English version (`English/Trash-Autonomous-en`) is coming soon!
+* For the French version, see `docs/French/Trash-Autonomous-fr`
+* The English version (`docs/English/Trash-Autonomous-en`) is coming soon!
 
 `.md` version is available for each language.
 

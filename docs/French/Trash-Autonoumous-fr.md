@@ -20,7 +20,7 @@ Ceci est mon premier projet en électronique et robotique.
 
 # Théorie :
 
-- 4 roulettes (dont 2 folles et 2 motorisés, un entraînement différentiel)
+- 3 roulettes (dont 1 folles et 2 motorisés, un entraînement différentiel)
 - Boîtier
 - Moteur
 - Batterie type industriel
@@ -194,7 +194,52 @@ Pas fini...
 
 **# Pourquoi je n'ai pas programmé le config en .json?** C'est une très bonne question, déjà, généralement, MicroPython est plus performant que JSON, surtout pour les microcontrôleurs type ESP32, MicroPython gère mieux les ressources et la mémoire que JSON, plus efficace; quant à JSON, dont il a besoin de conversions complexe/lourde. Parser (lire/exploiter des données) du JSON est plus lourd en ressources que MicroPython.
 
-La gestion des ressources sont très important lorsque on utilise des microcontrôleurs.  
+La gestion des ressources sont très important lorsque on utilise des microcontrôleurs.
+
+# Dashboard via PC | Status : En cours...
+
+Pour facilitez le débogage du firmware (de ma part), j'ai mis en place un tableau de contrôle dynamique (dashboard). 
+
+Cette interface permet de contrôller Robot-Poubelle depuis votre pc
+
+# Fonctionnement
+
+Pour former cette liason (récupérer les données en parallèle votre pc), vous devrez d'abord appairez RP. Connectez votre pc au 2e port usb-c de l'ESP32 (de la gauche vers la droite).
+
+![.](/img/Main/port-usbc.png)
+
+> [!NOTE]
+> Les images du logiciel (Dashboard) arriveront bientôt.
+
+Le logiciel Dashboard utilise la technologies BLE (Bluetooth Low Energy), permetant un envoi/réception de petite données, sans surcharger la batterie (de Robot-Poubelle). 
+
+Le BLE repose sur un modèle client/serveur très simple, structuré autour de deux notions clés :
+
+Le serveur (GATT Server / ESP32) : C'est lui qui possède les données (par exemple, les coordonnées UWB, l'état de la batterie ou les capteurs). Il organise ces données en Services (des tiroirs thématiques) et en Characteristics (les données précises, comme une valeur de distance).
+
+Le client (GATT Client / Dashboard) : C'est lui qui vient se connecter au serveur pour lire, écrire ou s'abonner aux changements d'une caractéristique (via un mécanisme appelé Notifications). Dès que l'ESP32 a une nouvelle coordonnée à envoyer, il pousse la notification au PC instantanément.
+
+Ces deux incovénients sont : 
+
+- Pas conçu pour envoyer de gros données (vidéo, flux lourds), mais, dans notre cas, c'est largement suffisant.
+
+- Connaisance en programmation modérer. 
+
+# Utilisation
+
+1. Télécharger `TA-Setup.exe` depuis `/dashboard`.
+2. Lancez `TA-Setup.exe` et suivez les consignes.
+3. Ouvrez `TA.exe` si disponible, connectez votre pc aux 2e port usb-c de l'ESP32, et appuyez sur "Téléverser le code", patientez et suivez les consignes.
+4. Voilà ! Maintenant profitez agréablement du dashboard.
+
+> [!NOTE]
+> Logiciel uniquement disponible en anglais, désolé...
+
+# Système de mise à jour du Dashboard
+
+Pour mettre à jour le Dashboard de Robot-Poubelle, la manière est peu élégante et intuitive. C'est très complexe, et je n'ai pas le temps pour en consacrer. 
+
+C'est pour cela, que je vous conseille vivement, de consulter la README du dépot, et regarder la section "Dashboard version:" et de comparez votre numéro de version disponible sur l'interface et celle de la README.
 
 # Modélisation 3d/CAO (Conception assisté par ordinateur) : 
 
@@ -229,8 +274,6 @@ Bon, je sais que je peux utiliser des Nets Labs, mais j'ai la flemme et pas le t
 
 > [!NOTE]
 > Une version en pdf de ce schéma de cablage est disponible : /img/pcb/Shematic_trash_autonoumous.pdf
-
-
 
 
 
@@ -307,78 +350,56 @@ Donc, le bloc de piles fournit du 12V.
 
 DC Femelle to Dupont => pin VM et GND du Driver (transfert via les pins AO1/AO2 et BO1/BO2) => pin rouge du Moteur 
 
+----------------------------------------------------------------------------------------------------------------------
 
+# Voici l’intégralité du panier Aliexpress (composants) :
 
-# Voici l’intégralité du panier Aliexpress de ce projet :
+[Robot-Poubelle](https://www.aliexpress.com/p/wish-manage/share.html?spm=a2g0o.best.headerAcount.6.2bb6142dnas95B&_gl=1*7mwwf7*_gcl_au*OTE1OTEzNjYyLjE3ODMwMjUyNDQ.*_ga*MjEwMDM3NDc0MS4xNzgzMDI1MjU3*_ga_VED1YSGNC7*czE3ODcwNzE2OTckbzExNSRnMCR0MTc4NzA3MTY5NyRqNjAkbDAkaDA.&smbPageCode=wishlist-amp&spreadId=9D17F73AD6E3321969CEB72831C0C71B5633AE79CA16C14777869F45B6FCB9BF)
 
-Robot-Poubelle : https://www.aliexpress.com/p/wish-manage/share.html?spm=a2g0o.best.headerAcount.6.2bb6142dnas95B&_gl=1*7mwwf7*_gcl_au*OTE1OTEzNjYyLjE3ODMwMjUyNDQ.*_ga*MjEwMDM3NDc0MS4xNzgzMDI1MjU3*_ga_VED1YSGNC7*czE3ODcwNzE2OTckbzExNSRnMCR0MTc4NzA3MTY5NyRqNjAkbDAkaDA.&smbPageCode=wishlist-amp&spreadId=9D17F73AD6E3321969CEB72831C0C71B5633AE79CA16C14777869F45B6FCB9BF
+[Station](https://www.aliexpress.com/p/wish-manage/share.html?spm=a2g0o.best.headerAcount.6.2bb6142dnas95B&_gl=1*7mwwf7*_gcl_au*OTE1OTEzNjYyLjE3ODMwMjUyNDQ.*_ga*MjEwMDM3NDc0MS4xNzgzMDI1MjU3*_ga_VED1YSGNC7*czE3ODcwNzE2OTckbzExNSRnMCR0MTc4NzA3MTY5NyRqNjAkbDAkaDA.&smbPageCode=wishlist-amp&spreadId=9D17F73AD6E3321969CEB72831C0C71B93FDB7C95A10AED5ACF5663CEDF8DD53)
 
-Station : https://www.aliexpress.com/p/wish-manage/share.html?spm=a2g0o.best.headerAcount.6.2bb6142dnas95B&_gl=1*7mwwf7*_gcl_au*OTE1OTEzNjYyLjE3ODMwMjUyNDQ.*_ga*MjEwMDM3NDc0MS4xNzgzMDI1MjU3*_ga_VED1YSGNC7*czE3ODcwNzE2OTckbzExNSRnMCR0MTc4NzA3MTY5NyRqNjAkbDAkaDA.&smbPageCode=wishlist-amp&spreadId=9D17F73AD6E3321969CEB72831C0C71B93FDB7C95A10AED5ACF5663CEDF8DD53
+Optionnel : [Une batterie externe (PowerBank)](https://fr.aliexpress.com/item/1005007748555286.html?pdp_ext_f=%7B%22sku_id%22%3A%2212000059013375681%22%7D&sourceType=1&spm=a2g0o.wish-manage-home.0.0&gatewayAdapt=glo2fra) ou "Batterie externe Xiaomi 5000mAh, chargeur USB Type C, chargeur de batterie externe pour téléphone mobile intelligent".
 
 > [!WARNING]
 > # Attention 
 > Attention ! Ce projet est en cours de développement, attendez vous à quelques erreurs ou manque, je n’ai rien acheté pour l’instant. 
 
-Pour les anglophones, j’ai légèrement modifier la traduction du nom de ce projet, Trash-Autonomous (Poubelle-Autonome) pour les anglophone et Robot-Poubelle (Robot-Trash) pour les francophone. 
+--
 
-Contactez moi si les liens sont devenu inaccessible (discord : milka330_47221 | E-mail : milkaa.linux@gmail.com). Je change rarement de nom d’utilisateur/mail, mais regarder la bio de mon profil Github (MILKAA-55) pour obtenir les derniers versions de mon e-mail et Discord. 
+> [!NOTE]
+> Les liens des paniers Aliexpress sont très instable, si une erreur se présente, recharger la page plusieurs fois ou créer un compte. Pour être sûr à 100% ! Consultez `/docs/French/bom-fr.md`.
+
 
 # Problématique rencontrées/reconnu : 
 
-Durant le dévelopement de ce projet, j'ai bien-évidement rencontrées plusieurs problèmes, j'ai réussis à les surpasser (via une I.A Générative, Reddit, Discord...). Mais il y a eu 2 gros problèmes dont j'ai eu du mal à les corriger, dont : 
+Durant le dévelopement de ce projet, j'ai bien-évidement rencontrées plusieurs problèmes, j'ai réussis à les surpasser (via une I.A Générative, Reddit, Discord...). Mais il y a eu un gros problème dont j'ai eu du mal à les corriger, dont : 
 
-# FreeCAD : "Erreur" cavité/perçage sur une surface-plate:
+# FreeCAD : "Erreur" cavité/perçage sur une surface-plate :
 
 Le modèle de Robot-Poubelle a besoin d'une cavité (et un perçage) sur la base 1 (du bas vers le haut) pour le port usb-c et pour les roues. Cependant, FreeCAD n'accepte pas l'ajout d'un trou sur une surface non-plate, FreeCAD exige impérativement que l'esquisse (Sketch) soit appuyée sur une surface parfaitement plane. 
 
 Résolution : 
 
 > [!NOTE]
-> ⚠️ **Astuce FreeCAD - Opération de soustraction sur surface courbe : Exemple** 
+> ⚠️ *** FreeCAD - Opération de soustraction sur surface courbe : Exemple** 
 > L'ordre de sélection est primordial dans l'atelier **Part** :
 > 1. Sélectionnez **d'abord** le corps principal (ex: le cylindre / la coque).
 > 2. Maintenez `Ctrl` et sélectionnez **ensuite** l'outil de découpe (ex: le rectangle USB-C étendu).
 > 3. Lancez l'outil de soustraction : le cylindre sera creusé proprement par la forme, peu importe la courbure de la surface !
 
 
-
 # Informations complémentaire : 
 
 Merci énormément, d’avoir pris le temps d’avoir lu ce document texte ! 
 
-Voici le récapitulatif financiers du projet :
-
-# Robot-Poubelle :
-
-- Esp32-S3 | N16R8 Solered | * 2 (Multplié par 2, pour la station également) = 18 €
-- Moteur JGA25-370 | sous 130 de rpm, 12v et avec «With Fixed Bracket» : 14,79 € * 2 (multplié par 2) = 29, 58 €
+Pour les anglophones, j’ai légèrement modifier la traduction du nom de ce projet, Trash-Autonomous (Poubelle-Autonome) pour les anglophone et Robot-Poubelle (Robot-Trash) pour les francophone. 
 
 > [!NOTE]
-> Rappel : Robot-Poubelle aura 4 roues au total : 2 roues motorisées et 2 roues folles.
+> Les liens des paniers Aliexpress sont très instable, si une erreur se présente, recharger la page plusieurs fois ou créer un compte. Pour être sûr à 100% ! Consultez `/docs/French/bom-fr.md`.
 
-- Driver TB6612FNG | modèle TB6612FNG, Welded : 3,39 € 
-- Capteurs Ultrasons (RCWL-1601, avec Interface I2C, mesure de Distance 2-4.5M) | 4 pcs : 8,19 €
-- Module UWB EWT550-7G9T10SP | EWT550-7G9T10SP + USB Cable (USB-C) : 12 € avec promotion et 14,22 € hors promotions. *2 (multiplié par 2) = 12*2 = 24€ 
-- Fils Duponts, Kit 120 pcs (F-F et M-M) : 4,19 €
-- Duponts to PH2.0 (pour Moteur) | 6pins/broches : 5, 19 € 
-- Piles 18650 2600 mAh 3.7V 10A| 2pcs + 1pcs : 13,89 € pour 2 pcs, et 11€ pour 1 pcs = 13, 89 + 11 = 26,89 €. Prix hors-promotions active. 
-- Conteneur batterie/piles : 1,89 €
-- Câble Usb-C Femelle to Usb-C Male | modèle 240W-0.5M : 4,59 €
-- Connecteur alimentation, Usb-C Femelle to DC | Sous 12V et 5.5*2.1 de diamiètre interne du DC : 1, 42 €
-- BreadBoard | 830 Tie : 3,09 € 
-- Module DC-DC 24V/12V vers 5V 5A : 2,38 €
-
-# Station : 
-
-- Bouton poussoir (permettant l’exécution de la recherche ....) | Couleurs au choix, pour ma part j’ai pris du WHITE LED, 3V-6V(5V), taille au choix, pris 19mm et Momentary : 2,89 €. 
-- Esp32 : 5,39 €
-
-Optionnel : Une batterie externe (PowerBank) : https://fr.aliexpress.com/item/1005007748555286.html?pdp_ext_f=%7B%22sku_id%22%3A%2212000059013375681%22%7D&sourceType=1&spm=a2g0o.wish-manage-home.0.0&gatewayAdapt=glo2fra ou Batterie externe Xiaomi 5000mAh, chargeur USB Type C, chargeur de batterie externe pour téléphone mobile intelligent
-
-Les total des prix ne prennent pas en compte, les taxes ni le surcoût de livraisons et ni la hausse des prix. 
 
 > [!WARNING]
-> # Attention 
+> # Rappel 
 > Attention ! Ce projet est en cours de développement, attendez vous à quelques erreurs ou manque, je n’ai rien acheté pour l’instant. 
 
 # Mesures : 
@@ -388,21 +409,13 @@ Robot-Poubelle :
 100mm de hauteur pour une base.
 120mm de rayon pour une base. 
 
-Station : 
-
-86,56 € pour l’électronique (hors livraisons, etc..)
-
-Une base (de 100mm) vaut 59, 46 € sous 20% de remplissage, hauteur de couche basse (de 0.20mm), PLA - Pro et FDM - Filaments et en classe « économique », prix avec réductions/promotions chez Abeille 3d.
-
-La station vaut 24, 34 € sous 20% de remplissage, hauteur de couche basse (de 0.20mm), PLA - Pro et 
-FDM - Filaments et en classe « économique », prix avec réductions/promotions chez Abeille 3d. 
-
 J'ai testé plusieurs prestataires d'imprimante 3d, mais Abeille 3d reste le moins chère. 
 
 Les prix sont vraiment abusée chez les prestataires d'imprimerie 3d... pour les prestataires de services d’imprimerie 3d, ils ajoutent souvent une grosse marge, ainsi, imprimer en 3d chez vous ou chez un Fablab revient généralement moins cher.  
 
-Merci infiniment à @wc8g (Discord) pour l'assistance sur l'impression 3D des pièces !  
+**Statut actuel :**  En cours de planification / En attente de production.
 
+Merci infiniment à @wc8g (Discord) pour l'assistance sur l'impression 3D des pièces !  
 
 # License :
 
@@ -428,9 +441,9 @@ Merci aux travaux de HTX Studio.
 
 Email : milkaa.linux@gmail.com
 
-Discord : milka330_47221
+Discord : @milka330_47221
 
-PS : Resonance by HOME est la meilleur musique !  
+PS : Resonance (par HOME) est la meilleur musique !  
 
 N'hésitez surtout pas me contacter si vous avez besoin d'aide, suggestions, etc... ! 
 

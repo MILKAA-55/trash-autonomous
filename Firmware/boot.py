@@ -1,4 +1,4 @@
-from uwb import UWB_Method
+from firmware.uwb import UWB_Method
 import gc
 
 gc.collect()
